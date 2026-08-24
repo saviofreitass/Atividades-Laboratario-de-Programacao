@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Atividades-Laboratario-de-Programacao.iml" filepath="$PROJECT_DIR$/.idea/Atividades-Laboratario-de-Programacao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Biblioteca/Biblioteca.iml" filepath="$PROJECT_DIR$/Biblioteca/Biblioteca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Liga dos Heróis - Savio/Liga dos Heróis - Savio.iml" filepath="$PROJECT_DIR$/Liga dos Heróis - Savio/Liga dos Heróis - Savio.iml" />
+    </modules>
+  </component>
+</project>
