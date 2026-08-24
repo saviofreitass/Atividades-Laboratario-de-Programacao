@@ -1,13 +1,12 @@
 package Gestão;
-
-
-import Gestão.Livro;
+import java.util.Scanner;
 
 public class LivroFisico extends Livro {
 
+    Scanner scanner = new Scanner(System.in);
     private double peso;
 
-    public LivroFisico(double peso, String titulo, String autor, int numeroPaginas) {
+    public LivroFisico(int peso, String titulo, String autor, int numeroPaginas) {
         super(titulo, autor, numeroPaginas);
         this.peso = peso;
     }

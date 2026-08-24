@@ -4,30 +4,48 @@ import Gestão.Livro;
 import Gestão.Ebook;
 import Gestão.Biblioteca;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Principal {
 
     public static void main(String[] args) {
-
         Biblioteca bibliotecaUni = new Biblioteca();
-        Ebook ebook1 = new Ebook(100, "Como Emagrecer em 30 dias", "Eduardo Feliciano", 30);
-        LivroFisico livroFisico1 = new LivroFisico(5, "Como vender ebooks", "Eduardo Feliciano", 20);
+        Scanner scanner = new Scanner(System.in);
+        int opcao=0;
 
-        bibliotecaUni.adicionarLivro(ebook1);
-        bibliotecaUni.adicionarLivro(livroFisico1);
+        while(opcao != 9){
+            System.out.println("Escolha uma opção: \n 1-Adicionar Livro \n 2-Listar Livros \n 3-Remover Livro \n" +
+                    " 4-Buscar livro \n 5-Editar Livro \n 9-Sair" );
+            opcao = scanner.nextInt();
+            scanner.nextLine();
 
-        bibliotecaUni.listarLivros();
-        
-        ArrayList<Livro> resultadoBusca = bibliotecaUni.buscarLivroPorTitulo("emagrecer");
-
-        if(resultadoBusca.isEmpty()){
-            System.out.println("Nenhum livro encotrado com esse título");
-        }else{
-            System.out.println("Livros encontrados: " + resultadoBusca.size());
-            for(Livro livro: resultadoBusca){
-                System.out.println(livro.getTitulo());
+            switch (opcao) {
+                case 1:
+                    bibliotecaUni.adicionarLivro();
+                    scanner.nextLine();
+                    break;
+                case 2:
+                    bibliotecaUni.listarLivros();
+                    scanner.nextLine();
+                    break;
+                case 3:
+                    bibliotecaUni.removerLivro();
+                    scanner.nextLine();
+                    break;
+                case 4:
+                    bibliotecaUni.buscarLivroPorTitulo();
+                    scanner.nextLine();
+                    break;
+                case 5:
+                    bibliotecaUni.editarLivro();
+                    scanner.nextLine();
+                    break;
+                default:
+                    System.out.println("Opçao invalida");
+                    break;
             }
-            System.out.println("------------------//-------------------");
         }
+
     }
 }
+
