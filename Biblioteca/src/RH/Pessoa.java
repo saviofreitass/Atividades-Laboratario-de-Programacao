@@ -1,14 +1,27 @@
 package RH;
 
-
 import Enum.Genero;
 
 public class Pessoa {
     private String nome;
-    private int idade;
+    private Genero genero;
+    private String tipo;
 
-    public Pessoa(String nome, int idade, String raca, Genero genero) {
+    public Pessoa(String nome, Genero genero, String tipo) {
         this.nome = nome;
-        this.idade = idade;
+        this.genero = genero;
+        this.tipo = tipo;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

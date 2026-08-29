@@ -1,8 +1,11 @@
 package Gestao;
 
 import RH.Pessoa;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import Enum.Genero;
 
 public class Biblioteca {
 
@@ -18,15 +21,24 @@ public class Biblioteca {
     }
 
     //-----------------------------------------/Métodos Livro/--------------------------------------------------------//
-    public void adicionarLivro() {
+    public void adicionarLivro(Pessoa pessoa) {
+        if(ehGerenteRh(pessoa)) {
+            imprimeAlerta(pessoa.getTipo(), "adicionar livro");
+            return;
+        }
         System.out.println("Qual tipo de livro você deseja adicionar? \n 1-Livro fisico \n 2-Ebook \n");
         int tipo = scanner.nextInt();
         scanner.nextLine();
         livros.add(pegaInfoLivros(tipo));
     }
     
-    public void removerLivro(){
-        System.out.println("Digite o nome do livro para remover: ");
+    public void removerLivro(Pessoa pessoa) {
+        if(ehGerenteRh(pessoa)) {
+            imprimeAlerta(pessoa.getTipo(), "remover livro");
+            return;
+        }
+        if(!listarLivros()) return;
+        System.out.println("Digite o titulo do livro para remover: ");
         String nome = scanner.nextLine();
         for( Livro livro : livros){
             if(livro.getTitulo().toLowerCase().contains(nome.toLowerCase())){
@@ -36,20 +48,26 @@ public class Biblioteca {
         }
     }
 
-    public void listarLivros() {
+    public boolean listarLivros() {
         if(livros.isEmpty()){
             System.out.println("Não ha livros cadastrados");
-            return;
+            return false;
         }
         int i = 1;
         for (Livro livro : livros) {
             System.out.println( i + " - Nome do livro: " + livro.getTitulo());
             i++;
         }
+        return true;
     }
 
-    public void editarLivro(){
-        listarLivros();
+    public void editarLivro(Pessoa pessoa){
+        if(ehGerenteRh(pessoa)) {
+            imprimeAlerta(pessoa.getTipo(), "editar livro");
+            return;
+        }
+        if(!listarLivros()) return;
+
         System.out.println("Escolha o numero do livro que deseja editar: ");
         int opcao = scanner.nextInt();
         System.out.println("O que você deseja alterar? \n 1-Titulo \n 2-Autor \n 3-Numero de paginas \n");
@@ -102,8 +120,69 @@ public class Biblioteca {
     //------------------------------------------/Fim métodos Livro/------------------------------------------------------//
 
 
-    //----------------------------------------------//----------------------------------------------------//
-    //Funcoes auxiliares
+    //-----------------------------------------/Métodos Membros/--------------------------------------------------------//
+    public void adicionarMembro(Pessoa pessoa){
+        if(!ehGerenteRh(pessoa)){
+            imprimeAlerta(pessoa.getTipo(), "adicionar membro");
+        };
+        membros.add(pegaInfoMembro());
+    }
+
+    public void removerMembro(Pessoa pessoa){
+        if(!ehGerenteRh(pessoa)) {
+            imprimeAlerta(pessoa.getTipo(), "remover membro");
+            return;
+        }
+        System.out.println("Digite o nome do membro para remover: ");
+        String nome = scanner.nextLine();
+        for( Pessoa membro : membros){
+            if(membro.getNome().toLowerCase().contains(nome.toLowerCase())){
+                membros.remove(membro);
+                return;
+            }
+        }
+    }
+
+    public boolean listarMembro(){
+        if(membros.isEmpty()){
+            System.out.println("Não ha membros cadastrados");
+            return false;
+        }
+        int i = 1;
+        for (Pessoa membro : membros) {
+            System.out.println( i + " - Nome do membro: " + membro.getNome());
+            i++;
+        }
+        return true;
+    }
+
+    public void editarMembro(Pessoa pessoa){
+        if(!ehGerenteRh(pessoa)) {
+            imprimeAlerta(pessoa.getTipo(), "editar membro");
+            return;
+        }
+        if(!listarMembro()) return;
+
+        System.out.println("Escolha o numero do membro que deseja editar: ");
+        int opcao = scanner.nextInt();
+        System.out.println("O que você deseja alterar? \n 1-Nome");
+        int opcao2 = scanner.nextInt();
+        scanner.nextLine();
+
+        if(opcao2 == 1){
+            System.out.println("Informe o nome: ");
+            String nome = scanner.nextLine();
+            membros.get(opcao-1).setNome(nome);
+        }else{
+            System.out.println("Opcao invalida");
+            return;
+        }
+        System.out.println("Membro alterado com sucesso!");
+    }
+
+    //------------------------------------------/Fim métodos Membros/------------------------------------------------------//
+
+    //----------------------------------------------/Funcoes auxiliares/----------------------------------------------------//
     public Livro pegaInfoLivros(int opc){
         System.out.println("Informe o nome do livro:");
         String titulo = scanner.nextLine();
@@ -130,6 +209,30 @@ public class Biblioteca {
             return null;
         }
         return livroNovo;
+    }
 
+    public boolean ehGerenteRh(Pessoa pessoa){
+        return pessoa.getTipo().equals("GerenteRh");
+    }
+
+    public void imprimeAlerta(String tipoPessoa, String campo){
+        System.out.println("Você está logado com um " + tipoPessoa + ", ele nao pode " + campo + "!");
+    }
+
+    public Pessoa pegaInfoMembro(){
+        System.out.println("Informe o nome da pessoa");
+        String nome = scanner.nextLine();
+        String generoOpcao;
+        do{
+            System.out.println("Digite o genero da pessoa: (M para Masculino, F para Feminino");
+            generoOpcao = scanner.nextLine();
+        }while(!generoOpcao.equalsIgnoreCase("M") && !generoOpcao.equalsIgnoreCase("F"));
+        Genero genero;
+        if(generoOpcao.equalsIgnoreCase("M")){
+            genero = Genero.MASCULINO;
+        }else{
+            genero = Genero.FEMININO;
+        }
+        return new Pessoa(nome, genero, "Membro");
     }
 }
